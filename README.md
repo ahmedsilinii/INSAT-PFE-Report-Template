@@ -10,7 +10,7 @@ A few things to look at first:
 
 ## Compile it
 
-**Option 1 : Overleaf (no install).** Zip this folder, create a New Project in Overleaf, choose Upload Project, and open [main.tex](main.tex). Set the compiler to pdfLaTeX in the menu. It builds the bibliography for you.
+**Option 1 : Overleaf (no install).** Zip this folder, create a New Project in Overleaf, choose Upload Project, and open [main.tex](main.tex). Set the compiler to pdfLaTeX in the menu. It builds the bibliography for you. ( you can remove the INSAT report notes pdf and its latex zip file so it compiles faster )
 
 **Option 2 : VS Code + MiKTeX (local).**
 
