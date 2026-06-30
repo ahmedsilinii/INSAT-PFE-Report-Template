@@ -10,9 +10,9 @@ A few things to look at first:
 
 ## Compile it
 
-**Overleaf (no install).** Zip this folder, create a New Project in Overleaf, choose Upload Project, and open [main.tex](main.tex). Set the compiler to pdfLaTeX in the menu. It builds the bibliography for you.
+**Option 1 : Overleaf (no install).** Zip this folder, create a New Project in Overleaf, choose Upload Project, and open [main.tex](main.tex). Set the compiler to pdfLaTeX in the menu. It builds the bibliography for you.
 
-**VS Code + MiKTeX (local).**
+**Option 2 : VS Code + MiKTeX (local).**
 
 1. Install [MiKTeX](https://miktex.org/download) and the LaTeX Workshop extension.
 2. Open this folder in VS Code, then open [main.tex](main.tex).
