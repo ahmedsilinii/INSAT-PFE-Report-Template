@@ -1,0 +1,107 @@
+% =============================================================================
+%  Chapter 1 — Example chapter (feature showcase)
+%  ---------------------------------------------------------------------------
+%  This chapter doubles as a FEATURE SHOWCASE for the template. Every
+%  construct you are likely to need (figure, table, code listing, citation,
+%  cross-references, lists) is demonstrated below with an explanatory comment.
+%  Rename the chapter, delete what you do not need, and replace the
+%  placeholder text with your own.
+% =============================================================================
+\chapter{First Chapter Title}
+
+% ── Per-chapter summary: a clickable list of this chapter's sections ──────────
+\section*{Summary}
+\begin{center}
+\begin{tabular}{cl}
+  1.1 & \hyperref[sec:example-section]{A Section (with figures, tables, code)} \\
+  1.2 & \hyperref[sec:example-lists]{Lists and Cross-references} \\
+\end{tabular}
+\end{center}
+
+\section*{Introduction}
+
+Open every chapter with a short paragraph that states what the chapter
+covers and how it connects to the previous one. Replace this placeholder
+with your own introduction.
+
+% The Summary + Introduction sit on the chapter's opening page; the page
+% break sends the content sections to a fresh page.
+\vfill
+\newpage
+
+\section{A Section}\label{sec:example-section}
+
+Write your prose here. Start a new paragraph by leaving a blank line.
+Use \textbf{bold} and \textit{italic} sparingly for emphasis.
+
+\subsection{Including a Figure}
+
+Reference a figure in the text with \autoref{fig:example-figure}, then place
+the figure with the \texttt{[H]} option so it stays where you put it.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{assets/Logos/insat.png}
+  \caption{Replace this with your own figure. Put images under \texttt{assets/}.}
+  \label{fig:example-figure}
+\end{figure}
+
+\subsection{Including a Table}
+
+Reference a table with \autoref{tab:example-table}. Use \texttt{tabularx} so
+the table fills the text width and wraps long cells automatically.
+
+\begin{table}[H]
+  \centering
+  \renewcommand{\arraystretch}{1.4}
+  \begin{tabularx}{\textwidth}{>{\bfseries}p{3cm} X}
+    \toprule
+    \rowcolor{tableheadbg}
+    \textbf{Column A} & \textbf{Column B} \\
+    \midrule
+    Row label    & A cell that can hold a long sentence and wrap onto the
+                   next line without breaking the table layout. \\
+    Another row  & Another description. \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Replace this with your own table.}
+  \label{tab:example-table}
+\end{table}
+
+\subsection{Including a Code Listing}
+
+Reference a listing with \autoref{lst:example-code}.
+
+\begin{lstlisting}[language=Python, caption={Replace with your own code.}, label={lst:example-code}]
+def greet(name):
+    return f"Hello, {name}!"
+\end{lstlisting}
+
+\subsection{Citing a Reference}
+
+Cite a source with \texttt{\textbackslash cite}, like this~\cite{example2024book}.
+Add the entry to \texttt{preliminary pages/bibliography.bib}; it appears in the
+Bibliography automatically.
+
+\section{Lists and Cross-references}\label{sec:example-lists}
+
+An unordered list:
+\begin{itemize}[leftmargin=1.5cm]
+  \item First point.
+  \item Second point.
+\end{itemize}
+
+An ordered list:
+\begin{enumerate}[leftmargin=1.5cm]
+  \item First step.
+  \item Second step.
+\end{enumerate}
+
+Refer back to earlier material by label, e.g. \autoref{sec:example-section}.
+
+\section*{Conclusion}
+
+Close every chapter with a short paragraph that summarises it and bridges
+to the next one.
+
+\newpage

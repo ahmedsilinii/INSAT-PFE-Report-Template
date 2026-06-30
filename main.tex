@@ -1,0 +1,211 @@
+\documentclass[12pt,a4paper]{report}
+
+% ── Encoding & Language ───────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+
+% ── Page Layout ───────────────────────────────────────────────────────────────
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+
+% ── Typography ────────────────────────────────────────────────────────────────
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{parskip}
+
+% Allow looser line breaking around long \texttt{} paths to avoid
+% justification gaps. Long monospace strings like "utils/common_aggrid.resource"
+% otherwise refuse to break and TeX inserts a big inter-word gap.
+\sloppy
+\emergencystretch=3em
+
+% ── Tables ────────────────────────────────────────────────────────────────────
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+
+% Tighten the vertical space booktabs reserves around \toprule / \midrule /
+% \bottomrule. The defaults (0.65ex each) bloat tables when many of them
+% appear across the document.
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0.2ex}
+
+% ── Figures & Graphics ────────────────────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\captionsetup{labelfont=bf, font=small, position=below, justification=centering}
+\captionsetup[table]{position=below}
+\captionsetup[figure]{position=below}
+
+% ── TikZ ──────────────────────────────────────────────────────────────────────
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, backgrounds}
+
+% ── Lists ─────────────────────────────────────────────────────────────────────
+\usepackage{enumitem}
+
+% ── Code Listings ─────────────────────────────────────────────────────────────
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{gray!8},
+  breaklines=true,
+  frame=single,
+  framesep=4pt,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{orange},
+}
+
+% ── Headers & Footers ─────────────────────────────────────────────────────────
+\usepackage{fancyhdr}
+\setlength{\headheight}{14.5pt}
+\addtolength{\topmargin}{-2.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\nouppercase{\leftmark}}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+
+% ── Hyperlinks ────────────────────────────────────────────────────────────────
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black, linktoc=all}
+
+% ── Chapter Title Format ──────────────────────────────────────────────────────
+% Each numbered chapter prints "Chapter N" on its own line, with the
+% chapter title in large bold beneath it.
+%
+% Numbered \chapter uses a generous display style; \chapter* (used by
+% \tableofcontents, \listoffigures, etc.) gets its own minimal style so
+% the heading does not crowd the list entries beneath it.
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+  {\normalfont\centering}
+  {\large\scshape Chapter\ \thechapter}
+  {12pt}
+  {\Huge\bfseries}
+\titlespacing*{\chapter}{0pt}{60pt}{40pt}
+
+% Unnumbered chapters (ToC, LoF, LoT, Acronyms, Conclusion, Bibliography,
+% Appendices) — keep the heading large and clearly separated from its
+% content but without the giant grey numeral.
+\titleformat{name=\chapter,numberless}[block]
+  {\normalfont\raggedright}
+  {}
+  {0pt}
+  {\Huge\bfseries}
+\titlespacing*{name=\chapter,numberless}{0pt}{0pt}{32pt}
+
+% ── PDF Inclusion ─────────────────────────────────────────────────────────────
+\usepackage{pdfpages}
+
+% ── Landscape Pages ───────────────────────────────────────────────────────────
+% Used for wide figures (e.g., the analysis class diagram) that benefit from
+% rotating a single page to landscape orientation in the rendered PDF.
+\usepackage{pdflscape}
+\usepackage{eso-pic}  % for absolute placement of rotated header on landscape pages
+
+% Helper command: paints a horizontal header along the top of the rotated
+% landscape page (page number + chapter name), so the header reads naturally
+% when the PDF is viewed in landscape orientation, instead of appearing
+% sideways at the edge of the portrait-layout header zone.
+\newcommand{\landscapepageheader}{%
+  \AddToShipoutPictureFG*{%
+    \put(0.5in, 1in){%
+      \rotatebox[origin=lb]{90}{%
+        \begin{minipage}{\dimexpr\paperheight-2in\relax}%
+          \footnotesize\leftmark\hfill\footnotesize\thepage%
+          \\[-0.4em]\rule{\linewidth}{0.4pt}%
+        \end{minipage}%
+      }%
+    }%
+  }%
+}
+
+% ── Bibliography ──────────────────────────────────────────────────────────────
+\usepackage[style=ieee, backend=biber]{biblatex}
+\addbibresource{preliminary pages/bibliography.bib}
+% ── Custom column types ───────────────────────────────────────────────────────
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+% ── Colours ───────────────────────────────────────────────────────────────────
+\definecolor{lbcblue}{HTML}{003087}
+\definecolor{arrowgray}{HTML}{888888}
+\definecolor{tableheader}{HTML}{D9D9D9}
+\definecolor{tableheadbg}{HTML}{D9D9D9}
+\colorlet{lightgray}{gray!15}
+
+% ── TikZ Node Styles ──────────────────────────────────────────────────────────
+\tikzset{
+  phase/.style={rectangle, rounded corners=4pt, draw=lbcblue, fill=lbcblue!10,
+                text width=2.8cm, align=center, minimum height=1cm,
+                font=\small\bfseries},
+  arrow/.style={-{Stealth[length=6pt]}, thick, color=arrowgray},
+}
+
+% =============================================================================
+\begin{document}
+% =============================================================================
+
+% ── Title Page (Page de Garde) — no page numbers ─────────────────────────────
+\pagestyle{empty}
+\pagenumbering{gobble}
+\includepdf{PageDeGarde_English.pdf}
+\includepdf[pages=2]{PageDeGarde_English.pdf}
+
+% ── Front Matter — Roman numerals, not listed in TOC ─────────────────────────
+\pagenumbering{roman}
+\pagestyle{plain}
+\input{preliminary pages/dedication}
+\input{preliminary pages/acknowledgements}
+\input{preliminary pages/abstract}
+\input{preliminary pages/resume}
+
+\tableofcontents
+\newpage
+
+\listoffigures
+\newpage
+
+\listoftables
+\newpage
+
+\input{preliminary pages/list_of_acronyms}
+
+% ── Main Content — Arabic page numbers starting at 1 ─────────────────────────
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{fancy}
+
+% ── General Introduction ──────────────────────────────────────────────────────
+\input{chapters/general_introduction}
+
+% ── Chapters ──────────────────────────────────────────────────────────────────
+\input{chapters/chapter1}
+\input{chapters/chapter2}
+\input{chapters/chapter3}
+\input{chapters/chapter4}
+\input{chapters/chapter5}
+
+% ── General Conclusion ────────────────────────────────────────────────────────
+\input{chapters/general_conclusion}
+
+% ── Bibliography ──────────────────────────────────────────────────────────────
+\printbibliography[heading=bibintoc, title={Bibliography}]
+
+% ── Appendices ────────────────────────────────────────────────────────────────
+\input{preliminary pages/appendices}
+
+% ── Final Page ────────────────────────────────────────────────────────────────
+\includepdf{LastPage.pdf}
+
+\end{document}

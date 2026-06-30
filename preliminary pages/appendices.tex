@@ -1,0 +1,28 @@
+% =============================================================================
+%  Appendices
+%  Each appendix renumbers figures/tables/listings with a letter prefix
+%  (A.1, A.2, ...). Duplicate the block below for Appendix B, C, ...
+% =============================================================================
+\chapter*{Appendices}
+\phantomsection
+\addcontentsline{toc}{chapter}{Appendices}
+\markboth{Appendices}{Appendices}
+\thispagestyle{plain}
+
+% ── Appendix A ────────────────────────────────────────────────────────────────
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\setcounter{lstlisting}{0}
+\renewcommand{\thefigure}{A.\arabic{figure}}
+\renewcommand{\thetable}{A.\arabic{table}}
+\renewcommand{\thelstlisting}{A.\arabic{lstlisting}}
+
+\section*{Appendix A: Title}
+\phantomsection
+\label{app:a}
+\addcontentsline{toc}{section}{Appendix A: Title}
+
+Place supplementary material here (large tables, extra figures, configuration
+files). Reference an appendix from the text with \hyperref[app:a]{Appendix~A}.
+
+\newpage
