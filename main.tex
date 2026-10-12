@@ -91,7 +91,9 @@
 \else
   \usepackage[french,main=english]{babel}
 \fi
-\frenchsetup{StandardLists=true}  % keep enumitem in control of list layout
+% Keep enumitem in control of list layout, and print "Figure"/"Tableau" in
+% caption labels without small capitals, like in English.
+\frenchsetup{StandardLists=true, SmallCapsFigTabCaptions=false}
 \usepackage{csquotes}
 
 % ── Page Layout ───────────────────────────────────────────────────────────────
@@ -135,7 +137,10 @@
 % Captions: table captions go ABOVE the table (write \caption before the
 % tabular), figure captions go BELOW the image (write \caption after it).
 \usepackage{caption}
-\captionsetup{font=small, labelfont={sf,bf}}
+% Label and text are separated by a colon, with the French non-breaking space
+% before it in a French thesis ("Figure 1.1 : ...").
+\DeclareCaptionLabelSeparator{thesiscolon}{\ifthesisfrench~:\else:\fi\space}
+\captionsetup{font=small, labelfont={sf,bf}, labelsep=thesiscolon}
 \captionsetup[table]{position=above}
 \captionsetup[figure]{position=below}
 
@@ -150,9 +155,13 @@
 \usepackage{listings}
 \lstset{
   basicstyle=\ttfamily\small,
+  columns=fullflexible,  % natural letter spacing instead of wide fixed columns
+  keepspaces=true,
   breaklines=true,
   frame=single,
   framesep=4pt,
+  xleftmargin=4.4pt,     % keep the frame inside the text margins
+  xrightmargin=4.4pt,
   numbers=left,
   numberstyle=\tiny,
   keywordstyle=\bfseries,
