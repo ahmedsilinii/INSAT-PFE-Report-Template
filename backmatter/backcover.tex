@@ -1,8 +1,9 @@
 % =============================================================================
 %  Back cover (quatrième de couverture)
 %  Reuses the résumé and abstract texts from frontmatter/ and the titles,
-%  keywords and host organisation from config.tex — nothing to fill in here.
-%  If the page overflows, shorten frontmatter/resume.tex and abstract.tex.
+%  keywords and host organisation from the top of main.tex, so there is
+%  nothing to fill in here. If the page overflows, shorten
+%  frontmatter/resume.tex and frontmatter/abstract.tex.
 % =============================================================================
 \clearpage
 \thispagestyle{empty}
@@ -10,7 +11,7 @@
 % One block per language: title, résumé/abstract text, keywords.
 \newcommand{\backcoverblock}[4]{%
   \begin{otherlanguage}{#1}%
-    \noindent{\color{accent}\rule{\textwidth}{1.2pt}}\par
+    \noindent\rule{\textwidth}{1.2pt}\par
     \noindent{\large\bfseries #2\par}
     \medskip
     \noindent\textbf{\abstractname}\par
@@ -33,9 +34,9 @@
 \fi
 
 \vfill
-\noindent{\color{accent}\rule{\textwidth}{1.2pt}}\par
+\noindent\rule{\textwidth}{1.2pt}\par
 \ifdefempty{\HostName}{}{%
   \noindent\textbf{\hostorganisationname} \HostName
-  \ifdefempty{\HostAddress}{}{ --- \HostAddress}\par}
-\noindent\Author\ --- \Degree, \University\ --- \AcademicYear\par
+  \ifdefempty{\HostAddress}{}{, \HostAddress}\par}
+\noindent\Author, \Degree, \University, \AcademicYear\par
 \endgroup
