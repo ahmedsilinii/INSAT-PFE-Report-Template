@@ -1,0 +1,73 @@
+% =============================================================================
+%  Title page (page de garde)
+%  Everything printed here comes from config.tex. Edit this file only if your
+%  university imposes a different layout.
+% =============================================================================
+\begin{titlepage}
+\centering
+
+% ── Header: university logo · institution · host logo ─────────────────────────
+\begin{minipage}[c]{0.24\textwidth}
+  \raggedright\thesislogo{\UniversityLogo}
+\end{minipage}%
+\begin{minipage}[c]{0.52\textwidth}
+  \centering
+  {\large\bfseries\University\par}
+  \ifdefempty{\Faculty}{}{\vspace{2pt}\Faculty\par}
+  \ifdefempty{\Department}{}{\Department\par}
+\end{minipage}%
+\begin{minipage}[c]{0.24\textwidth}
+  \raggedleft\thesislogo{\HostLogo}
+\end{minipage}
+
+\vspace{0.4cm}
+{\color{accent}\rule{\textwidth}{1.2pt}}
+
+\vfill
+
+% ── Document type & degree ────────────────────────────────────────────────────
+{\LARGE\scshape\ThesisType\par}
+\vspace{0.5cm}
+{\Large\Degree\par}
+\ifdefempty{\Track}{}{\vspace{0.15cm}{\large\Track\par}}
+
+\vfill
+
+% ── Title ─────────────────────────────────────────────────────────────────────
+{\color{accent}\rule{0.85\textwidth}{0.6pt}}\par
+\vspace{0.5cm}
+\begin{minipage}{0.85\textwidth}
+  \centering
+  {\LARGE\bfseries\ThesisTitle\par}
+  \ifdefempty{\Subtitle}{}{\vspace{0.3cm}{\large\itshape\Subtitle\par}}
+\end{minipage}\par
+\vspace{0.5cm}
+{\color{accent}\rule{0.85\textwidth}{0.6pt}}
+
+\vfill
+
+% ── Author & host organisation ────────────────────────────────────────────────
+\presentedbyname\par
+\vspace{0.15cm}
+{\Large\bfseries\Author\par}
+\ifdefempty{\HostName}{}{%
+  \vspace{0.6cm}
+  \hostedbyname\par
+  \vspace{0.15cm}
+  {\large\bfseries\HostName\par}}
+
+\vfill
+
+% ── Defence & jury ────────────────────────────────────────────────────────────
+\ifdefempty{\DefenseDate}{}{\defendedonname\ \DefenseDate\ \juryname\par}
+\ifdefempty{\Jury}{}{%
+  \vspace{0.4cm}
+  {\small\renewcommand{\arraystretch}{1.3}%
+  \begin{tabular}{@{}lll@{}}
+    \Jury
+  \end{tabular}\par}}
+
+\vfill
+
+{\large\bfseries\academicyearname\ \AcademicYear\par}
+\end{titlepage}

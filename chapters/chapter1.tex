@@ -7,101 +7,143 @@
 %  Rename the chapter, delete what you do not need, and replace the
 %  placeholder text with your own.
 % =============================================================================
-\chapter{First Chapter Title}
+\chapter{Titre du premier chapitre}
 
-% ── Per-chapter summary: a clickable list of this chapter's sections ──────────
-\section*{Summary}
+% ── Chapter outline: a clickable list of this chapter's sections ──────────────
+\section*{\outlinename}
 \begin{center}
 \begin{tabular}{cl}
-  1.1 & \hyperref[sec:example-section]{A Section (with figures, tables, code)} \\
-  1.2 & \hyperref[sec:example-lists]{Lists and Cross-references} \\
+  1.1 & \hyperref[sec:ch1-elements]{Figures, tableaux et code} \\
+  1.2 & \hyperref[sec:ch1-lists]{Listes et renvois} \\
 \end{tabular}
 \end{center}
 
 \section*{Introduction}
 
-Open every chapter with a short paragraph that states what the chapter
-covers and how it connects to the previous one. Replace this placeholder
-with your own introduction.
+Ouvrez chaque chapitre par un court paragraphe qui présente son contenu et
+le relie au chapitre précédent. Remplacez ce texte par votre propre
+introduction.
 
-% The Summary + Introduction sit on the chapter's opening page; the page
+% The outline + introduction sit on the chapter's opening page; the page
 % break sends the content sections to a fresh page.
 \vfill
 \newpage
 
-\section{A Section}\label{sec:example-section}
+\section{Figures, tableaux et code}\label{sec:ch1-elements}
 
-Write your prose here. Start a new paragraph by leaving a blank line.
-Use \textbf{bold} and \textit{italic} sparingly for emphasis.
+Rédigez votre texte ici. Laissez une ligne vide pour commencer un nouveau
+paragraphe. Utilisez le \textbf{gras} et l'\textit{italique} avec parcimonie.
 
-\subsection{Including a Figure}
+\subsection{Insérer une figure}
 
-Reference a figure in the text with \autoref{fig:example-figure}, then place
-the figure with the \texttt{[H]} option so it stays where you put it.
+% Put your images (PNG, JPG or PDF) in the figures/ folder and include them
+% by file name — the folder and the extension can be omitted.
+Faites référence à une figure par son étiquette avec
+\texttt{\textbackslash autoref}, qui écrit « \autoref{fig:ch1-example} »,
+puis placez-la avec l'option \texttt{[H]} pour qu'elle reste à l'endroit
+voulu.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.4\textwidth]{assets/Logos/insat.png}
-  \caption{Replace this with your own figure. Put images under \texttt{assets/}.}
-  \label{fig:example-figure}
+  \includegraphics[width=0.8\textwidth]{sample-figure}
+  \caption{Exemple de figure (\texttt{figures/sample-figure.png}) : remplacez-la
+  par la vôtre.}
+  \label{fig:ch1-example}
 \end{figure}
 
-\subsection{Including a Table}
+\subsection{Insérer un tableau}
 
-Reference a table with \autoref{tab:example-table}. Use \texttt{tabularx} so
-the table fills the text width and wraps long cells automatically.
+% Table style: caption ABOVE the tabular, booktabs rules, bold header row,
+% @{} at both ends so the rules line up with the text, \small text.
+Le titre d'un tableau se place au-dessus, celui d'une figure en dessous. Le
+\autoref{tab:ch1-text} montre un tableau de texte.
+
+% Text table: p{} columns wrap long cells; their widths add up to the text
+% width minus the column gaps.
+\begin{table}[H]
+  \centering
+  \caption{Exemple de tableau de texte : remplacez-le par le vôtre.}
+  \label{tab:ch1-text}
+  \small\setlength{\tabcolsep}{5pt}
+  \begin{tabular}{@{}p{0.27\textwidth} p{0.38\textwidth} p{0.29\textwidth}@{}}
+    \toprule
+    \textbf{Élément} & \textbf{Description} & \textbf{Remarque} \\
+    \midrule
+    Premier élément & Une cellule qui peut contenir une longue phrase et
+      passer à la ligne suivante sans casser la mise en page. & Courte
+      remarque \\[2pt]
+    Deuxième élément & Une autre description. & --- \\[2pt]
+    Troisième élément & Encore une description. & Voir
+      \autoref{sec:ch1-lists} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% Numeric table: S columns (siunitx) align numbers on the decimal marker;
+% \cmidrule groups columns under a shared header. Wrap non-numeric header
+% cells of an S column in braces.
+Le \autoref{tab:ch1-numbers} montre un tableau de résultats chiffrés, avec
+des colonnes regroupées et des nombres alignés sur la virgule.
 
 \begin{table}[H]
   \centering
-  \renewcommand{\arraystretch}{1.4}
-  \begin{tabularx}{\textwidth}{>{\bfseries}p{3cm} X}
+  \caption{Exemple de tableau de résultats : remplacez-le par le vôtre.}
+  \label{tab:ch1-numbers}
+  \small\setlength{\tabcolsep}{8pt}
+  \begin{tabular}{@{}l S[table-format=2.2] S[table-format=1.3]
+                     S[table-format=2.2] S[table-format=1.3]@{}}
     \toprule
-    \rowcolor{tableheadbg}
-    \textbf{Column A} & \textbf{Column B} \\
+    & \multicolumn{2}{c}{\textbf{Jeu de données A}}
+    & \multicolumn{2}{c}{\textbf{Jeu de données B}} \\
+    \cmidrule(lr){2-3}\cmidrule(lr){4-5}
+    \textbf{Méthode} & {\textbf{Temps (\si{\second})}} & {\textbf{Score}}
+                     & {\textbf{Temps (\si{\second})}} & {\textbf{Score}} \\
     \midrule
-    Row label    & A cell that can hold a long sentence and wrap onto the
-                   next line without breaking the table layout. \\
-    Another row  & Another description. \\
+    Référence  & 12.40 & 0.812 & 15.10 & 0.774 \\
+    Méthode 1  &  8.75 & 0.846 & 10.20 & 0.801 \\
+    Méthode 2  &  3.10 & 0.839 &  4.05 & 0.795 \\
     \bottomrule
-  \end{tabularx}
-  \caption{Replace this with your own table.}
-  \label{tab:example-table}
+  \end{tabular}
 \end{table}
 
-\subsection{Including a Code Listing}
+\subsection{Insérer du code}
 
-Reference a listing with \autoref{lst:example-code}.
+Un extrait de code se présente comme le \autoref{lst:ch1-example}.
 
-\begin{lstlisting}[language=Python, caption={Replace with your own code.}, label={lst:example-code}]
-def greet(name):
-    return f"Hello, {name}!"
+\begin{lstlisting}[language=Python, caption={Remplacez par votre propre code.}, label={lst:ch1-example}]
+def moyenne(valeurs):
+    # Moyenne arithmétique d'une liste de nombres
+    return sum(valeurs) / len(valeurs)
 \end{lstlisting}
 
-\subsection{Citing a Reference}
+\subsection{Citer une référence}
 
-Cite a source with \texttt{\textbackslash cite}, like this~\cite{example2024book}.
-Add the entry to \texttt{preliminary pages/bibliography.bib}; it appears in the
-Bibliography automatically.
+% Add the entry to references.bib; it appears in the bibliography as soon
+% as it is cited.
+Citez une source avec \texttt{\textbackslash cite}, comme
+ceci~\cite{example2024book}. L'entrée correspondante se trouve dans
+\texttt{references.bib}.
 
-\section{Lists and Cross-references}\label{sec:example-lists}
+\section{Listes et renvois}\label{sec:ch1-lists}
 
-An unordered list:
+Une liste à puces :
 \begin{itemize}[leftmargin=1.5cm]
-  \item First point.
-  \item Second point.
+  \item premier point ;
+  \item second point.
 \end{itemize}
 
-An ordered list:
+Une liste numérotée :
 \begin{enumerate}[leftmargin=1.5cm]
-  \item First step.
-  \item Second step.
+  \item première étape ;
+  \item seconde étape.
 \end{enumerate}
 
-Refer back to earlier material by label, e.g. \autoref{sec:example-section}.
+Renvoyez à un élément antérieur grâce à son étiquette, par exemple
+\autoref{sec:ch1-elements}.
 
 \section*{Conclusion}
 
-Close every chapter with a short paragraph that summarises it and bridges
-to the next one.
+Terminez chaque chapitre par un court paragraphe qui en résume le contenu et
+annonce le chapitre suivant.
 
 \newpage

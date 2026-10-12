@@ -1,0 +1,41 @@
+% =============================================================================
+%  Back cover (quatrième de couverture)
+%  Reuses the résumé and abstract texts from frontmatter/ and the titles,
+%  keywords and host organisation from config.tex — nothing to fill in here.
+%  If the page overflows, shorten frontmatter/resume.tex and abstract.tex.
+% =============================================================================
+\clearpage
+\thispagestyle{empty}
+
+% One block per language: title, résumé/abstract text, keywords.
+\newcommand{\backcoverblock}[4]{%
+  \begin{otherlanguage}{#1}%
+    \noindent{\color{accent}\rule{\textwidth}{1.2pt}}\par
+    \noindent{\large\bfseries #2\par}
+    \medskip
+    \noindent\textbf{\abstractname}\par
+    \input{#3}\par
+    \smallskip
+    \noindent\textbf{\keywordsname} #4\par
+  \end{otherlanguage}%
+  \bigskip}
+
+\begingroup
+\small
+\setlength{\parskip}{0.4em}
+
+\ifthesisfrench
+  \backcoverblock{french}{\TitleFR}{frontmatter/resume}{\KeywordsFR}
+  \backcoverblock{english}{\TitleEN}{frontmatter/abstract}{\KeywordsEN}
+\else
+  \backcoverblock{english}{\TitleEN}{frontmatter/abstract}{\KeywordsEN}
+  \backcoverblock{french}{\TitleFR}{frontmatter/resume}{\KeywordsFR}
+\fi
+
+\vfill
+\noindent{\color{accent}\rule{\textwidth}{1.2pt}}\par
+\ifdefempty{\HostName}{}{%
+  \noindent\textbf{\hostorganisationname} \HostName
+  \ifdefempty{\HostAddress}{}{ --- \HostAddress}\par}
+\noindent\Author\ --- \Degree, \University\ --- \AcademicYear\par
+\endgroup

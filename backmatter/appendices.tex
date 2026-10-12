@@ -3,10 +3,10 @@
 %  Each appendix renumbers figures/tables/listings with a letter prefix
 %  (A.1, A.2, ...). Duplicate the block below for Appendix B, C, ...
 % =============================================================================
-\chapter*{Appendices}
+\chapter*{\appendicesname}
 \phantomsection
-\addcontentsline{toc}{chapter}{Appendices}
-\markboth{Appendices}{Appendices}
+\addcontentsline{toc}{chapter}{\appendicesname}
+\markboth{\appendicesname}{\appendicesname}
 \thispagestyle{plain}
 
 % ── Appendix A ────────────────────────────────────────────────────────────────
@@ -17,12 +17,13 @@
 \renewcommand{\thetable}{A.\arabic{table}}
 \renewcommand{\thelstlisting}{A.\arabic{lstlisting}}
 
-\section*{Appendix A: Title}
+\section*{\appendixname~A -- Titre de l'annexe}
 \phantomsection
 \label{app:a}
-\addcontentsline{toc}{section}{Appendix A: Title}
+\addcontentsline{toc}{section}{\appendixname~A -- Titre de l'annexe}
 
-Place supplementary material here (large tables, extra figures, configuration
-files). Reference an appendix from the text with \hyperref[app:a]{Appendix~A}.
+Placez ici les compléments (grands tableaux, figures supplémentaires,
+fichiers de configuration, questionnaires\dots). Faites-y référence depuis
+le texte avec \hyperref[app:a]{l'annexe~A}.
 
 \newpage

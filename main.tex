@@ -1,9 +1,31 @@
+% =============================================================================
+%  Master's thesis template
+%  ---------------------------------------------------------------------------
+%  1. Fill in config.tex (language, title, author, university, jury, ...).
+%  2. Write your content in frontmatter/, chapters/ and backmatter/.
+%  3. Compile with pdfLaTeX + Biber (Overleaf does this automatically).
+% =============================================================================
 \documentclass[12pt,a4paper]{report}
+
+% ── Thesis information (edit config.tex) ──────────────────────────────────────
+\newif\ifthesisfrench
+\input{config}
+\ifthesisfrench
+  \let\ThesisTitle\TitleFR
+\else
+  \let\ThesisTitle\TitleEN
+\fi
 
 % ── Encoding & Language ───────────────────────────────────────────────────────
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[english]{babel}
+\usepackage{lmodern}
+\ifthesisfrench
+  \usepackage[english,main=french]{babel}
+\else
+  \usepackage[french,main=english]{babel}
+\fi
+\frenchsetup{StandardLists=true}  % keep enumitem in control of list layout
 \usepackage{csquotes}
 
 % ── Page Layout ───────────────────────────────────────────────────────────────
@@ -15,36 +37,46 @@
 \onehalfspacing
 \usepackage{parskip}
 
-% Allow looser line breaking around long \texttt{} paths to avoid
-% justification gaps. Long monospace strings like "utils/common_aggrid.resource"
-% otherwise refuse to break and TeX inserts a big inter-word gap.
+% Allow looser line breaking around long unbreakable strings (URLs, file
+% paths in \texttt{}) so TeX does not stretch inter-word gaps instead.
 \sloppy
 \emergencystretch=3em
 
 % ── Tables ────────────────────────────────────────────────────────────────────
+% Style: booktabs rules (\toprule, \midrule, \bottomrule), bold header row,
+% no vertical lines or shading. See Chapter 1 for examples.
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{longtable}
 \usepackage{booktabs}
 \usepackage[table]{xcolor}
+\renewcommand{\arraystretch}{1.12}
 
-% Tighten the vertical space booktabs reserves around \toprule / \midrule /
-% \bottomrule. The defaults (0.65ex each) bloat tables when many of them
-% appear across the document.
-\setlength{\aboverulesep}{0pt}
-\setlength{\belowrulesep}{0.2ex}
+% Numbers and units: \num{1234.5}, \SI{3.2}{\milli\second}, and the S column
+% type that aligns numbers on the decimal marker. The decimal marker follows
+% the thesis language (comma in French, point in English).
+\usepackage{siunitx}
+\ifthesisfrench
+  \sisetup{locale=FR}
+\else
+  \sisetup{locale=UK}
+\fi
 
 % ── Figures & Graphics ────────────────────────────────────────────────────────
 \usepackage{graphicx}
+\graphicspath{{figures/}}
 \usepackage{float}
+
+% Captions: table captions go ABOVE the table (write \caption before the
+% tabular), figure captions go BELOW the image (write \caption after it).
 \usepackage{caption}
-\captionsetup{labelfont=bf, font=small, position=below, justification=centering}
-\captionsetup[table]{position=below}
+\captionsetup{font=small, labelfont={sf,bf,color=accent}}
+\captionsetup[table]{position=above}
 \captionsetup[figure]{position=below}
 
 % ── TikZ ──────────────────────────────────────────────────────────────────────
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, backgrounds}
+\usetikzlibrary{babel, shapes.geometric, arrows.meta, positioning, fit, backgrounds}
 
 % ── Lists ─────────────────────────────────────────────────────────────────────
 \usepackage{enumitem}
@@ -62,6 +94,10 @@
   keywordstyle=\color{blue}\bfseries,
   commentstyle=\color{green!50!black},
   stringstyle=\color{orange},
+  % listings does not handle UTF-8: map accented letters used in comments.
+  literate={à}{{\`a}}1 {â}{{\^a}}1 {ç}{{\c{c}}}1 {é}{{\'e}}1 {è}{{\`e}}1
+           {ê}{{\^e}}1 {ë}{{\"e}}1 {î}{{\^i}}1 {ï}{{\"i}}1 {ô}{{\^o}}1
+           {ù}{{\`u}}1 {û}{{\^u}}1 {À}{{\`A}}1 {É}{{\'E}}1 {È}{{\`E}}1,
 }
 
 % ── Headers & Footers ─────────────────────────────────────────────────────────
@@ -77,11 +113,13 @@
 
 % ── Hyperlinks ────────────────────────────────────────────────────────────────
 \usepackage{hyperref}
-\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black, linktoc=all}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black,
+            linktoc=all, pdftitle={\ThesisTitle}, pdfauthor={\Author}}
+\providecommand*{\lstlistingautorefname}{\lstlistingname}
 
 % ── Chapter Title Format ──────────────────────────────────────────────────────
-% Each numbered chapter prints "Chapter N" on its own line, with the
-% chapter title in large bold beneath it.
+% Each numbered chapter prints "Chapitre N" / "Chapter N" on its own line,
+% with the chapter title in large bold beneath it.
 %
 % Numbered \chapter uses a generous display style; \chapter* (used by
 % \tableofcontents, \listoffigures, etc.) gets its own minimal style so
@@ -90,14 +128,14 @@
 
 \titleformat{\chapter}[display]
   {\normalfont\centering}
-  {\large\scshape Chapter\ \thechapter}
+  {\large\scshape\chaptername\ \thechapter}
   {12pt}
   {\Huge\bfseries}
 \titlespacing*{\chapter}{0pt}{60pt}{40pt}
 
 % Unnumbered chapters (ToC, LoF, LoT, Acronyms, Conclusion, Bibliography,
 % Appendices) — keep the heading large and clearly separated from its
-% content but without the giant grey numeral.
+% content.
 \titleformat{name=\chapter,numberless}[block]
   {\normalfont\raggedright}
   {}
@@ -109,8 +147,8 @@
 \usepackage{pdfpages}
 
 % ── Landscape Pages ───────────────────────────────────────────────────────────
-% Used for wide figures (e.g., the analysis class diagram) that benefit from
-% rotating a single page to landscape orientation in the rendered PDF.
+% Used for wide figures (e.g., a large diagram) that benefit from rotating a
+% single page to landscape orientation in the rendered PDF.
 \usepackage{pdflscape}
 \usepackage{eso-pic}  % for absolute placement of rotated header on landscape pages
 
@@ -132,56 +170,109 @@
 }
 
 % ── Bibliography ──────────────────────────────────────────────────────────────
-\usepackage[style=ieee, backend=biber]{biblatex}
-\addbibresource{preliminary pages/bibliography.bib}
+% Other common styles: authoryear, ieee, apa (load biblatex-apa).
+\usepackage[style=numeric-comp, sorting=none, backend=biber]{biblatex}
+\addbibresource{references.bib}
+
 % ── Custom column types ───────────────────────────────────────────────────────
 \newcolumntype{Y}{>{\centering\arraybackslash}X}
 
 % ── Colours ───────────────────────────────────────────────────────────────────
-\definecolor{lbcblue}{HTML}{003087}
-\definecolor{arrowgray}{HTML}{888888}
-\definecolor{tableheader}{HTML}{D9D9D9}
-\definecolor{tableheadbg}{HTML}{D9D9D9}
-\colorlet{lightgray}{gray!15}
+\definecolor{accent}{HTML}{1F3A5F}  % caption labels, title page and back cover rules
 
-% ── TikZ Node Styles ──────────────────────────────────────────────────────────
-\tikzset{
-  phase/.style={rectangle, rounded corners=4pt, draw=lbcblue, fill=lbcblue!10,
-                text width=2.8cm, align=center, minimum height=1cm,
-                font=\small\bfseries},
-  arrow/.style={-{Stealth[length=6pt]}, thick, color=arrowgray},
+% ── Localised labels ──────────────────────────────────────────────────────────
+% Babel already translates the standard names (Chapitre/Chapter, Table des
+% matières/Contents, Bibliographie/Bibliography, ...). The names below are
+% specific to this template and switch with the language in the same way.
+\addto\captionsfrench{%
+  \renewcommand{\tablename}{Tableau}%
+  \def\dedicationname{Dédicace}%
+  \def\acknowledgementsname{Remerciements}%
+  \def\acronymsname{Liste des acronymes}%
+  \def\introductionname{Introduction générale}%
+  \def\conclusionname{Conclusion générale et perspectives}%
+  \def\appendicesname{Annexes}%
+  \def\outlinename{Plan du chapitre}%
+  \def\keywordsname{Mots-clés~:}%
+  \def\presentedbyname{Présenté par}%
+  \def\hostedbyname{Réalisé au sein de}%
+  \def\defendedonname{Soutenu publiquement le}%
+  \def\juryname{devant le jury composé de~:}%
+  \def\academicyearname{Année universitaire}%
+  \def\hostorganisationname{Structure d'accueil~:}%
 }
+\addto\captionsenglish{%
+  \def\dedicationname{Dedication}%
+  \def\acknowledgementsname{Acknowledgements}%
+  \def\acronymsname{List of Acronyms}%
+  \def\introductionname{General Introduction}%
+  \def\conclusionname{General Conclusion and Perspectives}%
+  \def\appendicesname{Appendices}%
+  \def\outlinename{Chapter Outline}%
+  \def\keywordsname{Keywords:}%
+  \def\presentedbyname{Presented by}%
+  \def\hostedbyname{Carried out at}%
+  \def\defendedonname{Publicly defended on}%
+  \def\juryname{before the jury composed of:}%
+  \def\academicyearname{Academic year}%
+  \def\hostorganisationname{Host organisation:}%
+}
+
+% ── Title page, résumé/abstract and back cover helpers ────────────────────────
+% One row of the jury table on the title page (see \Jury in config.tex).
+\newcommand{\JuryMember}[3]{#1 & #2 & \textit{#3} \\}
+
+% Logo slot on the title page: {} → dashed placeholder, {none} → nothing.
+\newcommand{\thesislogo}[1]{%
+  \ifdefempty{#1}{%
+    \tikz{\draw[dashed, gray] (0,0) rectangle (2.6,2);
+          \node[gray, font=\scriptsize\sffamily] at (1.3,1) {Logo};}%
+  }{%
+    \ifdefstring{#1}{none}{}{%
+      \includegraphics[width=\linewidth, height=2.2cm, keepaspectratio]{#1}}%
+  }}
+
+% \summarypage{<language>}{<text file>}{<keywords>}: a front-matter page with
+% the résumé or the abstract. The back cover reuses the same text files.
+\newcommand{\summarypage}[3]{%
+  \begin{otherlanguage}{#1}%
+    \chapter*{\abstractname}%
+    \thispagestyle{plain}%
+    \input{#2}%
+    \par\vspace{1em}%
+    \noindent\textbf{\keywordsname} #3\par
+  \end{otherlanguage}%
+  \newpage}
 
 % =============================================================================
 \begin{document}
 % =============================================================================
 
-% ── Title Page (Page de Garde) — no page numbers ─────────────────────────────
-\pagestyle{empty}
+% ── Title Page — no page number ───────────────────────────────────────────────
+% If your university provides an official cover as a PDF, upload it and
+% replace the \input line below with \includepdf{<cover>.pdf}.
 \pagenumbering{gobble}
-\includepdf{PageDeGarde_English.pdf}
-\includepdf[pages=2]{PageDeGarde_English.pdf}
+\input{frontmatter/titlepage}
 
-% ── Front Matter — Roman numerals, not listed in TOC ─────────────────────────
+% ── Front Matter — Roman numerals, not listed in TOC ──────────────────────────
 \pagenumbering{roman}
 \pagestyle{plain}
-\input{preliminary pages/dedication}
-\input{preliminary pages/acknowledgements}
-\input{preliminary pages/abstract}
-\input{preliminary pages/resume}
+\input{frontmatter/dedication}
+\input{frontmatter/acknowledgements}
+\ifthesisfrench
+  \summarypage{french}{frontmatter/resume}{\KeywordsFR}
+  \summarypage{english}{frontmatter/abstract}{\KeywordsEN}
+\else
+  \summarypage{english}{frontmatter/abstract}{\KeywordsEN}
+  \summarypage{french}{frontmatter/resume}{\KeywordsFR}
+\fi
 
 \tableofcontents
-\newpage
-
 \listoffigures
-\newpage
-
 \listoftables
-\newpage
+\input{frontmatter/acronyms}
 
-\input{preliminary pages/list_of_acronyms}
-
-% ── Main Content — Arabic page numbers starting at 1 ─────────────────────────
+% ── Main Content — Arabic page numbers starting at 1 ──────────────────────────
 \pagenumbering{arabic}
 \setcounter{page}{1}
 \pagestyle{fancy}
@@ -190,22 +281,25 @@
 \input{chapters/general_introduction}
 
 % ── Chapters ──────────────────────────────────────────────────────────────────
+% Typical outlines — adapt freely:
+%   Research master:     state of the art · approach · experiments · results
+%   Professional master: context & host organisation · analysis & design ·
+%                        implementation · evaluation
 \input{chapters/chapter1}
 \input{chapters/chapter2}
 \input{chapters/chapter3}
 \input{chapters/chapter4}
-\input{chapters/chapter5}
 
 % ── General Conclusion ────────────────────────────────────────────────────────
 \input{chapters/general_conclusion}
 
 % ── Bibliography ──────────────────────────────────────────────────────────────
-\printbibliography[heading=bibintoc, title={Bibliography}]
+\printbibliography[heading=bibintoc]
 
 % ── Appendices ────────────────────────────────────────────────────────────────
-\input{preliminary pages/appendices}
+\input{backmatter/appendices}
 
-% ── Final Page ────────────────────────────────────────────────────────────────
-\includepdf{LastPage.pdf}
+% ── Back Cover ────────────────────────────────────────────────────────────────
+\input{backmatter/backcover}
 
 \end{document}
